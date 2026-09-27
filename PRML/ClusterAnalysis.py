@@ -7,15 +7,6 @@
 - data/Points788.csv
 - data/MallCustomers.csv
 - data/University.csv
-
-依赖库：
-matplotlib>=3.10.8
-numpy>=2.2.6
-pandas>=3.0.1
-seaborn>=0.13.2
-kmodes>=0.12.2
-scipy>=1.17.1
-scikit-learn>=1.8.0
 """
 
 from math import pi

@@ -1,7 +1,7 @@
 /*
 项目名称: 校园导航
 创建日期: 2026-06-12
-数据来源: 内嵌 CSV 字符串 CAMPUS_MAP_CSV
+数据来源: 内嵌 CSV 字符串 CAMPUS_MAP
 */
 
 #include <iostream>
@@ -18,7 +18,7 @@
 using namespace std;
 
 // 校园地图数据（内嵌 CSV），格式: 起点,终点,距离（米）
-static const char *CAMPUS_MAP_CSV = R"CSV(start,end,distance  
+static const char *CAMPUS_MAP = R"CSV(start,end,distance  
 0,1,350
 0,2,230
 0,9,300
@@ -125,10 +125,10 @@ static string trim(const string &s)
     return s.substr(b, e - b + 1);
 }
 
-// 从内嵌 CSV 字符串初始化地图 (取代原来的读文件)
+// 从内嵌 CSV 字符串初始化地图
 void initCampusMap(Graph &g)
 {
-    istringstream in(CAMPUS_MAP_CSV);
+    istringstream in(CAMPUS_MAP);
     string line;
     bool firstLine = true; // 跳过表头
 
@@ -138,7 +138,7 @@ void initCampusMap(Graph &g)
         if (line.empty())
             continue;
 
-        // 跳过表头 (以 "start" 开头的那一行)
+        // 跳过表头
         if (firstLine)
         {
             firstLine = false;

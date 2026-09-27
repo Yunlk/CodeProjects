@@ -1,8 +1,5 @@
 Industrial-Heritage/
-├── app.py                  # Flask主程序
-├── qa_engine.py            # 问答系统核心
-├── image_recognizer.py     # 图像识别核心
-├── 
+├── app.py                  # 主程序
 ├── data/
 │   ├── qa.json             # 问答知识库
 │   ├── heritage_info.json  # 遗产详细信息

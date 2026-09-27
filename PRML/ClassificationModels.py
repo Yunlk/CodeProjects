@@ -19,12 +19,6 @@
 - SMS_received：患者是否收到短信通知
 - Date.diff：就诊日期与预约日期的时间差
 - Showed_up：目标变量：FLASE 表示病人如约就诊，TRUE 表示病人没有前往就诊
-
-依赖库:
-matplotlib>=3.10.9
-numpy>=2.2.6
-pandas>=3.0.1
-scikit-learn>=1.8.0
 """
 
 import matplotlib.pyplot as plt

@@ -1,16 +1,19 @@
 """
 项目名称: 图像识别分类器
 创建日期: 2026-04-22
+需求文件:
+- data/ClassifierData
+- 本项目数据集来源于 Kaggle 平台。
+- 链接: https://www.microsoft.com/en-us/download/details.aspx?id=54765
+- 在 data/ClassifierData 下创建 data 文件夹分割数据集为 train 和 test 文件夹。
 
 包含:
 - ImageClassifier: LBP 分块直方图 + Sigmoid 非线性分类器
 - Window: 图形界面应用程序 (GUI)
 
-需求文件: data/train, data/test
-
 依赖库:
-numpy>=2.2.6
-Pillow>=11.0.0
+numpy==2.2.6
+Pillow==11.0.0
 """
 
 import os
@@ -541,14 +544,14 @@ def train_main():
     clf = ImageClassifier()
 
     # 缓存文件路径
-    cache_file = "models/train_features.npz"
+    cache_file = "data/ClassifierData/models/train_features.npz"
 
     # 尝试从缓存加载特征
     X_train, y_train = clf.load_features(cache_file)
 
     if X_train is None:
         # 缓存不存在，需要加载图片并提取特征
-        train_dir = "data/train"
+        train_dir = "data/ClassifierData/data/train"
         if not os.path.isdir(train_dir):
             print(f"错误：训练目录 '{train_dir}' 不存在。")
             return
@@ -580,7 +583,7 @@ def train_main():
     )
 
     # 保存最优参数
-    param_path = "models/params.npz"
+    param_path = "data/ClassifierData/models/params.npz"
     clf.save_params(param_path)
 
     # 输出总结
@@ -593,7 +596,7 @@ def train_main():
 def test_main():
     """分类器图形测试界面"""
     # 加载模型参数
-    param_path = "models/params.npz"
+    param_path = "data/ClassifierData/models/params.npz"
     if not os.path.exists(param_path):
         root = tk.Tk()
         root.withdraw()
@@ -612,15 +615,47 @@ def test_main():
     root.mainloop()
 
 
+def evaluate_main():
+    """在测试集上评估模型准确率"""
+    param_path = "data/ClassifierData/models/params.npz"
+    if not os.path.exists(param_path):
+        print(f"错误：未找到参数文件 '{param_path}'，请先训练。")
+        return
+
+    test_dir = "data/ClassifierData/data/test"
+    if not os.path.isdir(test_dir):
+        print(f"错误：未找到测试目录 '{test_dir}'。")
+        return
+
+    clf = ImageClassifier()
+    clf.load_params(param_path)
+
+    print(f"正在评估测试集: {test_dir}")
+    accuracy, results = clf.evaluate(test_dir)
+
+    # 输出混淆矩阵
+    tp = sum(1 for r in results if r["true_label"] == 1 and r["pred_label"] == 1)
+    tn = sum(1 for r in results if r["true_label"] == 0 and r["pred_label"] == 0)
+    fp = sum(1 for r in results if r["true_label"] == 0 and r["pred_label"] == 1)
+    fn = sum(1 for r in results if r["true_label"] == 1 and r["pred_label"] == 0)
+
+    print("\n混淆矩阵:")
+    print(f"  猫(真) 猫(预): {tp}   猫(真) 狗(预): {fn}")
+    print(f"  狗(真) 猫(预): {fp}   狗(真) 狗(预): {tn}")
+    print(f"  准确率: {accuracy:.2%}")
+
+
 if __name__ == "__main__":
     task_map = {
         "0": "Train",
         "1": "Test",
+        "2": "Evaluate",
     }
 
     print("请选择要运行的任务：")
-    print("  0 - Train (训练分类器)")
-    print("  1 - Test  (图形界面测试)")
+    print("  0 - Train    (训练分类器)")
+    print("  1 - Test     (图形界面单张预测)")
+    print("  2 - Evaluate (测试集准确率评估)")
 
     choice = input("请输入编号: ").strip()
 
@@ -632,6 +667,7 @@ if __name__ == "__main__":
 
     if task == "Train":
         train_main()
-
     elif task == "Test":
         test_main()
+    elif task == "Evaluate":
+        evaluate_main()

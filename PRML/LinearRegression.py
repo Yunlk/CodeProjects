@@ -8,12 +8,6 @@
 包含:
 - LinearRegressionGD: 使用梯度下降求解的线性回归 (ex1data1.txt)
 - RegressionPrediction: 回归预测 (boston.csv)
-
-依赖库:
-matplotlib>=3.10.9
-numpy>=2.2.6
-pandas>=3.0.1
-scikit-learn>=1.8.0
 """
 
 import matplotlib.pyplot as plt

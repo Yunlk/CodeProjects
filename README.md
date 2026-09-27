@@ -6,27 +6,7 @@
 
 ## Application（应用实践）
 
-### ChessGame（中国象棋游戏）
-
-- **入口文件**：`Application/ChessGame/ChessGame.py`
-- **功能描述**：实现了完整的中国象棋游戏，包含将、士、相、车、马、炮、兵等棋子的走法规则。
-- **运行方法**：
-  ```bash
-  cd Application/ChessGame
-  python ChessGame.py
-  ```
-
-### ImageClassifier（图像分类器）
-
-- **入口文件**：`Application/ImageClassifier/ImageClassifier.py`
-- **功能描述**：基于 LBP 特征提取与神经网络，实现猫狗图像分类功能（训练与测试脚本分别为 `train.py` / `test.py`）。
-- **运行方法**：
-  ```bash
-  cd Application/ImageClassifier
-  python ImageClassifier.py
-  ```
-
-### IndustrialHeritage（工业遗产数字活化）
+### IndustrialHeritage（数溯工忆：工业遗产数字活化）
 
 - **入口文件**：`Application/IndustrialHeritage/app.py`
 - **功能描述**：集成图像识别模块与知识问答引擎，用于工业遗产信息查询与保护。
@@ -53,7 +33,7 @@
 - **运行方法**：
   ```bash
   cd Application/SparkNexus
-  python run.py
+  python app.py
   ```
 
 ### TripScape（行旅识景：世界著名地标智能识别）
@@ -63,7 +43,7 @@
 - **运行方法**：
   ```bash
   cd Application/TripScape
-  python -m app
+  python app.py
   ```
 
 ---
@@ -198,6 +178,26 @@
   cd Programming
   g++ CampusNavigation.cpp -o nav
   ./nav
+  ```
+
+### ChessGame（中国象棋游戏）
+
+- **入口文件**：`Programming/ChessGame.py`
+- **功能描述**：实现了完整的中国象棋游戏，包含将、士、相、车、马、炮、兵等棋子的走法规则。
+- **运行方法**：
+  ```bash
+  cd Programming
+  python ChessGame.py
+  ```
+
+### ImageClassifier（图像分类器）
+
+- **入口文件**：`Programming/ImageClassifier.py`
+- **功能描述**：基于 LBP 特征提取与神经网络，实现猫狗图像分类功能。
+- **运行方法**：
+  ```bash
+  cd Programming
+  python ImageClassifier.py
   ```
 
 ### QueueManagement（队列管理系统）

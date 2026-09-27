@@ -1,19 +1,13 @@
 """
 项目名称: 降维分析
 创建日期: 2026-04-23
-数据目录: data/DimReduction_Data
+数据目录: data/ORL_Faces
 
 包含:
 - IrisDimReduction: Iris 数据集 PCA 降维
 - FaceDimReduction: ORL 人脸数据集 PCA 特征脸与重构
 - FaceRecAnalysis: ORL 人脸数据集 PCA / LDA / PCA+LDA 分析
 - FaceVerifier: 基于 LDA 投影和余弦相似度的人脸验证器
-
-依赖库:
-opencv-python>=4.12.0.88
-matplotlib>=3.10.8
-numpy>=2.2.6
-scikit-learn>=1.8.0
 """
 
 import os

@@ -5,27 +5,6 @@
 需求文件:
 - data/watermelon2.csv
 - data/watermelon3.csv
-
-依赖库:
-matplotlib>=3.10.9
-numpy>=2.2.6
-pandas>=3.0.1
-scikit-learn>=1.8.0
-graphviz>=0.21
-
-代码结构总览:
-DecisionNode                ← 定义树节点
-DecisionTree                ← CART 决策树主类
-  ├── __init__              ← 加载 CSV 文件
-  ├── data_processing       ← 独热编码 + 数值化
-  ├── _gini                 ← 基尼指数
-  ├── _gini_gain            ← 基尼增益
-  ├── _best_split           ← 寻找最优分裂点
-  ├── _build_tree           ← 递归建树
-  ├── fit / predict / score ← 训练、预测、评估
-  ├── export_graphviz       ← 生成 Graphviz 对象
-  └── plot_tree_in_memory   ← 内存渲染 + matplotlib 显示
-main                        ← 训练、对比、绘图
 """
 
 import io
