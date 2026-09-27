@@ -32,3 +32,5 @@ Application/TripScape/data/valid
 Application/TripScape/cache
 # 模型  
 Application/TripScape/models
+# 桌面版打卡记录（个人运行时状态）
+Application/TripScape/data/checkins.json
