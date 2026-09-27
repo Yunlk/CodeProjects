@@ -1,57 +1,56 @@
-SparkNexus/                    # 项目根目录
-├── app/                       # 应用主包
-│   ├── __init__.py            # 应用工厂（create_app），注册蓝图、初始化扩展
-│   ├── config.py              # 配置类（开发/生产/测试）
-│   ├── models.py              # 所有数据库模型（User, Event, Registration 等）
-│   ├── decorators.py          # 自定义装饰器（权限校验等）
-│   ├── auth/                  # 认证蓝图（登录/注册/退出）
-│   │   ├── __init__.py        # 蓝图实例化
-│   │   ├── routes.py          # 视图函数
-│   │   └── forms.py           # WTForms 表单类
-│   ├── schedule/              # 日程蓝图（课表、活动、个人日程）
-│   │   ├── __init__.py
-│   │   ├── routes.py
-│   │   └── forms.py
-│   ├── registration/          # 报名签到蓝图
-│   │   ├── __init__.py
-│   │   ├── routes.py
-│   │   └── forms.py
-│   ├── notification/          # 通知蓝图
-│   │   ├── __init__.py
-│   │   ├── routes.py
-│   │   └── forms.py
-│   ├── templates/             # Jinja2 模板（按蓝图分子目录）
-│   │   ├── base.html          # 基模板（导航栏、消息闪现等）
-│   │   ├── index.html         # 首页仪表盘
-│   │   ├── auth/
-│   │   │   ├── login.html
-│   │   │   └── register.html
-│   │   ├── schedule/
-│   │   │   ├── view.html      # 课表查看
-│   │   │   ├── manage.html    # 课表调整（教师）
-│   │   │   ├── add.html       # 添加个人日程（学生）
-│   │   │   └── create_event.html  # 发布活动
-│   │   ├── registration/
-│   │   │   ├── create.html    # 发起报名/签到
-│   │   │   ├── list.html      # 活动列表
-│   │   │   └── detail.html    # 报名/签到操作页
-│   │   └── notification/
-│   │       ├── list.html      # 通知列表
-│   │       └── create.html    # 发布通知
-│   └── static/                # 静态资源
-│       ├── css/
-│       │   └── style.css
-│       ├── js/
-│       │   └── main.js
-│       └── images/
-├── migrations/                # Flask-Migrate 数据库迁移目录
-├── tests/                     # 单元测试（按蓝图分文件）
-│   ├── conftest.py            # 测试夹具
-│   ├── test_auth.py
-│   ├── test_schedule.py
-│   └── ...
-├── .env                       # 环境变量（SECRET_KEY、数据库地址等）
-├── .gitignore
-├── requirements.txt           # 依赖列表
+SPARKNEXUS/                    # 项目根目录
+├── requirements.txt           # Python 依赖包列表
 ├── run.py                     # 应用启动入口
-└── README.md
+├── structure.txt              # 项目结构说明文件
+├── app/                       # Flask 应用主包
+│   ├── config.py              # 项目配置：密钥、数据库、邮件等
+│   ├── decorators.py          # 自定义装饰器：登录校验、权限校验等
+│   ├── models.py              # 数据库模型定义
+│   ├── __init__.py            # 应用工厂，初始化扩展、注册蓝图
+│   ├── auth/                  # 认证与用户管理蓝图
+│   │   ├── forms.py           # 登录、注册、重置密码等表单
+│   │   ├── routes.py          # 认证相关路由
+│   │   └── __init__.py        # auth 蓝图实例化
+│   ├── notification/          # 通知蓝图
+│   │   ├── forms.py           # 通知相关表单
+│   │   ├── routes.py          # 通知相关路由
+│   │   └── __init__.py        # notification 蓝图实例化
+│   ├── registration/          # 报名蓝图
+│   │   ├── forms.py           # 报名相关表单
+│   │   ├── routes.py          # 报名相关路由
+│   │   └── __init__.py        # registration 蓝图实例化
+│   ├── schedule/              # 日程/活动蓝图
+│   │   ├── forms.py           # 日程、活动相关表单
+│   │   ├── routes.py          # 日程、活动相关路由
+│   │   └── __init__.py        # schedule 蓝图实例化
+│   └── templates/             # Jinja2 模板目录
+│       ├── base.html          # 基础布局模板
+│       ├── index.html         # 首页模板
+│       ├── _pagination.html   # 分页组件模板
+│       ├── auth/              # 认证相关页面
+│       │   ├── admin_users.html    # 管理员用户列表页
+│       │   ├── edit_role.html      # 编辑用户角色页
+│       │   ├── login.html          # 登录页
+│       │   ├── profile.html        # 个人资料页
+│       │   ├── register.html       # 注册页
+│       │   └── reset_password.html # 重置密码页
+│       ├── notification/      # 通知相关页面
+│       │   ├── create.html    # 创建通知页
+│       │   ├── detail.html    # 通知详情页
+│       │   └── list.html      # 通知列表页
+│       ├── registration/      # 报名相关页面
+│       │   ├── create.html    # 创建报名页
+│       │   ├── detail.html    # 报名详情页
+│       │   └── list.html      # 报名列表页
+│       └── schedule/          # 日程/活动相关页面
+│           ├── add.html       # 添加日程页
+│           ├── create_event.html # 创建活动页
+│           ├── manage.html    # 日程/活动管理页
+│           └── view.html      # 日程/活动查看页
+├── instance/                  # 实例目录，存放本地数据
+│   └── dev.db                 # SQLite 开发数据库
+└── migrations/                # 数据库迁移目录
+    ├── alembic.ini            # Alembic 配置文件
+    ├── env.py                 # 迁移环境脚本
+    ├── README                 # 迁移说明文件
+    └── script.py.mako         # 迁移脚本模板
