@@ -2,84 +2,73 @@
 
 本文档记录了项目在日常维护中的通用方法，方便调用。
 
+---
+
 ## Python 依赖与虚拟环境配置
 
-- 生成初始依赖清单（需提前全局安装 `pipreqs`）
-
+- 生成初始依赖清单（需提前安装 `pipreqs`）
   ```bash
-  # . 代表文件路径
+  # . 代表全部文件，可替换为具体文件路径
   pipreqs . --encoding=utf8 --force
   ```
-- 创建 Python 隔离虚拟环境
 
+- 创建 Python 隔离虚拟环境
   ```bash
   python -m venv .venv
   ```
+
 - 激活虚拟环境
-
   > Windows 用户 (cmd)
-  >
-
   ```bash
   .venv/Scripts/activate
   ```
 
   > Windows 用户 (PowerShell)
-  >
-
   设置执行策略（仅首次需要）
-
   ```PowerShell
   Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
   ```
 
   切换到项目目录执行激活命令
-
   ```PowerShell
   .\.venv\Scripts\Activate.ps1
   ```
 
   直接用绝对路径执行激活命
-
   ```PowerShell
   . "<项目根目录>\.venv\Scripts\Activate.ps1"
   ```
 
   > Linux/Mac 用户
-  >
-
   ```bash
   source .venv/bin/activate`
   ```
-- 检查环境是否干净
 
+- 检查环境是否干净
   ```bash
   python -m pip freeze
   ```
-- 升级 pip 到最新版本
 
+- 升级 pip 到最新版本
   ```bash
   python -m pip install --upgrade pip
   ```
-- 安装项目依赖
 
+- 安装项目依赖
   ```bash
   python -m pip install -r requirements.txt
   ```
-
   > 清华镜像源：
-  >
   > ```bash
   > python -m pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
   > ```
-  >
-- 导出当前环境所有包的精确版本（覆盖原 requirements.txt）
 
+- 导出当前环境所有包的精确版本（覆盖原 requirements.txt）
   ```bash
   python -m pip freeze > requirements.txt
   ```
-- 退出环境
 
+- 退出环境
   ```bash
   deactivate
   ```
@@ -89,67 +78,143 @@
 
 ---
 
+## Python 开发维护
+
+- 安装开发依赖（统一安装）
+  ```bash
+  python -m pip install -r requirements-dev.txt
+  ```
+
+- pipreqs（一键生成项目依赖清单）
+  ```bash
+  # . 可替换为具体路径
+  pipreqs . --encoding=utf8 --force
+  # 注意：动态导入、标准库等可能漏掉，生成后需人工检查
+  ```
+
+- isort（导入语句自动排序）
+  ```bash
+  # . 可替换为具体路径
+  isort .
+  ```
+
+- black（代码格式化）
+  ```bash
+  # . 可替换为具体路径
+  black .         # 格式化文件
+  black --check . # 只检查不修改
+  black --diff .  # 查看会改哪里，但不实际修改
+  ```
+
+- pytest（测试框架）
+  ```bash
+  # . 可替换为具体路径
+  pytest .        # 运行测试
+  pytest . -v     # 显示详细输出
+  pytest . -x     # 遇到第一个失败就停止
+  pytest . -k "*" # 只运行名称包含 * 的测试
+  ```
+
+- pre-commit（Git 预提交钩子管理）
+  ```bash
+  # 需要先在项目根目录创建 .pre-commit-config.yaml 配置文件
+  pre-commit install                # 安装 Git 钩子（之后 git commit 会自动触发）
+  pre-commit run --all-files        # 手动检查所有文件
+  pre-commit run                    # 只检查暂存区文件
+  pre-commit run black --all-files  # 只运行某个钩子，例如 black
+  pre-commit autoupdate             # 更新 .pre-commit-config.yaml 中的钩子版本
+  pre-commit uninstall              # 卸载 Git 钩子
+  git commit --no-verify            # 临时跳过 pre-commit 检查
+  ```
+
+---
+
+## Python 项目文档生成
+
+- 安装文档依赖（统一安装）
+  ```bash
+  python -m pip install -r requirements-docs.txt
+  ```
+
+- 初始化文档项目
+  ```bash
+  mkdir docs
+  cd docs
+  sphinx-quickstart
+  ```
+
+- 实时预览
+  ```bash
+  sphinx-autobuild source build
+  ```
+
+- 生成静态网站
+  ```bash
+  sphinx-build source build
+  ```
+
+---
+
 ## 数据库命令模板
 
 ### MySQL
 
 - 切换到目标数据库（`*` 代表数据库名称）
-
   ```SQL
   USE *;
   ```
-- 查看当前数据库中的所有表
 
+- 查看当前数据库中的所有表
   ```SQL
   SHOW TABLES;
   ```
-- 查看表结构（`*` 代表表名）
 
+- 查看表结构（`*` 代表表名）
   ```SQL
   DESC *;
   ```
-- 清空表数据并重置自增 ID（`*` 代表表名）
 
+- 清空表数据并重置自增 ID（`*` 代表表名）
   ```SQL
   TRUNCATE TABLE *;
   ```
-- 删除整张表（`*` 代表表名）
 
+- 删除整张表（`*` 代表表名）
   ```SQL
   DROP TABLE IF EXISTS *;
   ```
-- 查询表中所有数据（`*` 代表表名）
 
+- 查询表中所有数据（`*` 代表表名）
   ```SQL
   SELECT * FROM *;
   ```
-- 查询前 n 条数据（`*` 代表表名，`n` 为数字）
 
+- 查询前 n 条数据（`*` 代表表名，`n` 为数字）
   ```SQL
   SELECT * FROM * LIMIT n;
   ```
-- 插入数据（`*` 代表表名，字段和值自行替换）
 
+- 插入数据（`*` 代表表名，字段和值自行替换）
   ```SQL
   INSERT INTO * (字段1, 字段2) VALUES (值1, 值2);
   ```
-- 更新数据（`*` 代表表名，条件和赋值自行替换）
 
+- 更新数据（`*` 代表表名，条件和赋值自行替换）
   ```SQL
   UPDATE * SET 字段 = 新值 WHERE 条件;
   ```
-- 删除数据（`*` 代表表名，条件自行替换）
 
+- 删除数据（`*` 代表表名，条件自行替换）
   ```SQL
   DELETE FROM * WHERE 条件;
   ```
-- 查看当前连接的数据库名称
 
+- 查看当前连接的数据库名称
   ```SQL
   SELECT DATABASE();
   ```
-- 建表
 
+- 建表
   ```SQL
   CREATE TABLE IF NOT EXISTS 表名 (
       id INT AUTO_INCREMENT PRIMARY KEY,
@@ -164,66 +229,64 @@
 ### SQLite
 
 - 查看当前连接的所有数据库文件（固定命令，无需替换）
-
   ```SQL
   PRAGMA database_list;
   ```
 
   > 如果需要查看单个数据库文件路径，可执行 `PRAGMA *;`（`*` 替换为数据库别名，如 `main`），但通常直接用 `database_list` 更直观。
-  >
-- 查看当前数据库中的所有表
 
+- 查看当前数据库中的所有表
   ```SQL
   SELECT name FROM sqlite_master WHERE type = 'table';
   ```
-- 查看表结构（`*` 代表表名）
 
+- 查看表结构（`*` 代表表名）
   ```SQL
   PRAGMA table_info(*);
   ```
-- 清空表数据（`*` 代表表名）
 
+- 清空表数据（`*` 代表表名）
   ```SQL
   TRUNCATE TABLE *;
   ```
 
   或（若 `TRUNCATE` 不支持，使用此备用方案）
-
   ```SQL
   DELETE FROM *;
   ```
+
 - 删除整张表（`*` 代表表名）
 
   ```SQL
   DROP TABLE IF EXISTS *;
   ```
-- 查询表中所有数据（`*` 代表表名）
 
+- 查询表中所有数据（`*` 代表表名）
   ```SQL
   SELECT * FROM *;
   ```
-- 查询前 n 条数据（`*` 代表表名，`n` 为数字）
 
+- 查询前 n 条数据（`*` 代表表名，`n` 为数字）
   ```SQL
   SELECT * FROM * LIMIT n;
   ```
-- 插入数据（`*` 代表表名，字段和值自行替换）
 
+- 插入数据（`*` 代表表名，字段和值自行替换）
   ```SQL
   INSERT INTO * (字段1, 字段2) VALUES (值1, 值2);
   ```
-- 更新数据（`*` 代表表名，条件和赋值自行替换）
 
+- 更新数据（`*` 代表表名，条件和赋值自行替换）
   ```SQL
   UPDATE * SET 字段 = 新值 WHERE 条件;
   ```
-- 删除数据（`*` 代表表名，条件自行替换）
 
+- 删除数据（`*` 代表表名，条件自行替换）
   ```SQL
   DELETE FROM * WHERE 条件;
   ```
-- 建表
 
+- 建表
   ```SQL
   CREATE TABLE IF NOT EXISTS 表名 (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -233,20 +296,21 @@
   );
   ```
 
+---
+
 ## PowerShell 批量重命名
 
 - 重命名（有前导零）
-
   ```PowerShell
   $i=1; Get-ChildItem *.jpg | Sort-Object LastWriteTime | ForEach-Object { Rename-Item $_ -NewName ("Name_{0:D3}{1}" -f $i, $_.Extension); $i++ }
   ```
+
 - 重命名（无前导零）
-
   ```PowerShell
   $i=1; Get-ChildItem *.jpg | Sort-Object LastWriteTime | ForEach-Object { Rename-Item $_ -NewName ("Name_{0:D3}{1}" -f $i, $_.Extension); $i++ }
   ```
-- 在原文件名前面统一加上前缀
 
+- 在原文件名前面统一加上前缀
   ```PowerShell
   Get-ChildItem *.* | ForEach-Object { Rename-Item $_ -NewName ("Name_" + $_.Name) }
   ```
